@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Frontend Challenge
 
 Our goal is to understand:
@@ -77,3 +78,29 @@ The data above is enough to complete challenge. We also include the source Sketc
 - Adding tests to your components and app
 - Using a store (Vuex) to manage the application data
 - Using vue-router to prepare the app for a future where it would have multiple routes
+=======
+# frontend-challenge
+
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+>>>>>>> e755115 (init)
