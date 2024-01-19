@@ -1,9 +1,21 @@
 @import url("./reset.css");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
+:root {
+  --base-color: #414c5e;
+  --light-grey: #f6f7f8;
+  --content-color: #778195;
+  --purple: #859eff;
+  --title-color: #566074;
+  --border-color: #eaedef;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
   font-weight: 400;
+  font-size: 18px;
+  color: var(--base-color);
+  font-optical-sizing: auto;
   font-style: normal;
+  background-color: var(--light-grey);
 }
