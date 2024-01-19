@@ -22,11 +22,17 @@ export default {
       this.editingIndex = index;
       this.isEditingVoice = true;
       this.isEditingText = false;
+      this.$nextTick(() => {
+        this.$refs[`voiceInput-${index}`][0].focus();
+      });
     },
     editText(index) {
       this.editingIndex = index;
       this.isEditingVoice = false;
       this.isEditingText = true;
+      this.$nextTick(() => {
+        this.$refs[`textInput-${index}`][0].focus();
+      });
     },
     resetEditing() {
       this.editingIndex = null;
@@ -116,7 +122,7 @@ export default {
               updateFieldPair(index, { voice: item.voice, text: item.text })
             "
             placeholder="Enter title"
-            autofocus
+            :ref="`voiceInput-${index}`"
             class="transcription__input--editing"
           />
 
@@ -132,7 +138,7 @@ export default {
               updateFieldPair(index, { voice: item.voice, text: item.text })
             "
             placeholder="Enter description"
-            autofocus
+            :ref="`textInput-${index}`"
             class="transcription__input--editing"
           ></textarea>
           <p class="transcription__content" v-else @click="editText(index)">
