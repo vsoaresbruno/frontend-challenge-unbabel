@@ -5,9 +5,12 @@ export default {
     ...mapGetters(["data"]),
   },
   methods: {
-    ...mapActions(["fetchData"]),
+    ...mapActions(["fetchData", "postData"]),
     loadData() {
       this.fetchData();
+    },
+    saveData() {
+      this.postData();
     },
   },
   props: {
@@ -15,8 +18,8 @@ export default {
   },
   data() {
     return {
-      FetchDocIcon: require("../assets/images/fetch-document.svg"),
       UploadIcon: require("../assets/images/upload.svg"),
+      FetchDocIcon: require("../assets/images/fetch-document.svg"),
     };
   },
 };
@@ -43,10 +46,6 @@ header {
   margin: 0 auto;
 }
 
-.header__title {
-  color: #414c5e;
-  font-size: 18px;
-}
 .header__actions button {
   cursor: pointer;
   background: unset;
@@ -59,11 +58,11 @@ header {
     <div class="header__content">
       <h1 class="header__title">{{ title }}</h1>
       <div class="header__actions">
-        <button @click="loadData">
-          <img :src="FetchDocIcon" alt="Save transcriptions" />
+        <button @click="saveData">
+          <img :src="UploadIcon" alt="Save transcriptions" />
         </button>
         <button @click="loadData">
-          <img :src="UploadIcon" alt="Load transcriptions" />
+          <img :src="FetchDocIcon" alt="Load transcriptions" />
         </button>
       </div>
     </div>
