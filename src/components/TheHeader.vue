@@ -34,15 +34,12 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  top: 0;
-  z-index: 1;
 }
 
 .header__content {
   display: flex;
   justify-content: space-between;
-  width: 740px;
+  width: 700px;
   margin: 0 auto;
 }
 
