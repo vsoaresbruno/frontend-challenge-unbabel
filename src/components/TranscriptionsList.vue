@@ -1,9 +1,15 @@
 <script>
 import { mapMutations } from "vuex";
+import TheCheckbox from "./TheCheckbox.vue";
 
 export default {
   props: {
-    transcriptionsList: Array,
+    transcriptionsList: {
+      type: Object,
+    },
+  },
+  components: {
+    TheCheckbox,
   },
   computed: {
     transcriptionFromStore() {
@@ -28,68 +34,64 @@ export default {
       this.isEditingText = false;
     },
   },
-  components: {
-    // TranscriptionsItem,
-  },
+
   data() {
     return {
       editingIndex: null,
       isEditingVoice: false,
       isEditingText: false,
-      // ... other data properties ...
+      FaceIcon: require("../assets/images/person.svg"),
     };
   },
 };
 </script>
+
 <style scoped>
 .trasncription__list {
   text-decoration: none;
 }
 .transcription__item {
+  display: flex;
+  align-items: flex-start;
   border-bottom: 1px solid #eaedef;
   padding: 24px;
 }
-.transcription__title {
-  margin-bottom: 12px;
-}
-.transcription__description {
-  font-weight: 400;
-  color: #778195;
-  font-size: 16px;
-}
-.transcription__description--editing,
-.transcription__title--editing {
+.transcription__editable-area {
+  margin-left: 10px;
   width: 100%;
-  outline: 3px solid #fcfff4;
-  background: #f6f7f8;
-  box-shadow: inset 0 0 0 2px #859eff;
-  padding: 5px;
-  border-radius: 3px;
 }
-
+.transcription__title {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--title-color);
+}
+.transcription__content {
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--content-color);
+}
 .transcription__input--editing {
   width: 100%;
   background: #f6f7f8;
-  box-shadow: inset 0 0 0 2px #859eff;
+  box-shadow: inset 0 0 0 2px var(--purple);
   margin-bottom: 12px;
   padding: 5px;
   border-radius: 3px;
   border: none;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
   font-size: 16px;
+  font-weight: 400;
   outline: 3px solid #fcfff4;
 }
-
 .transcription__input--editing:focus {
-  outline: 3px solid #fcfff4;
   background: #f6f7f8;
-  box-shadow: inset 0 0 0 2px #859eff;
+  box-shadow: inset 0 0 0 2px var(--purple);
   padding: 5px;
   border-radius: 3px;
-}
-.transcription__title--editing {
-  margin-bottom: 12px;
+  outline: 3px solid #fcfff4;
 }
 </style>
 
@@ -101,8 +103,10 @@ export default {
         v-for="(item, index) in transcriptionsList"
         :key="index"
       >
-        <!-- <div v-if="editingIndex === index" class="editable-area"> -->
-        <div class="editable-area">
+        <TheCheckbox :index="item.id" />
+        <img :src="FaceIcon" alt="face icon" />
+
+        <div class="transcription__editable-area">
           <input
             v-if="editingIndex === index && isEditingVoice"
             type="text"
@@ -115,6 +119,7 @@ export default {
             autofocus
             class="transcription__input--editing"
           />
+
           <h3 class="transcription__title" v-else @click="editVoice(index)">
             {{ item.voice }}
           </h3>
@@ -130,7 +135,7 @@ export default {
             autofocus
             class="transcription__input--editing"
           ></textarea>
-          <p class="transcription__description" v-else @click="editText(index)">
+          <p class="transcription__content" v-else @click="editText(index)">
             {{ item.text }}
           </p>
         </div>
