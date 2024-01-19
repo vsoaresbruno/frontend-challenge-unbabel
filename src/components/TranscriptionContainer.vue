@@ -18,6 +18,11 @@ export default {
       this.addFieldPair();
     },
   },
+  data() {
+    return {
+      AddRowIcon: require("../assets/images/add-row.svg"),
+    };
+  },
 };
 </script>
 
@@ -36,6 +41,9 @@ export default {
 .add-transcription {
   margin: 12px auto;
   display: block;
+  border: unset;
+  background-color: unset;
+  cursor: pointer;
 }
 </style>
 
@@ -45,6 +53,8 @@ export default {
     <div class="content">
       <TranscriptionsList :transcriptionsList="data" />
     </div>
-    <button @click="addFields" class="add-transcription">+</button>
+    <button @click="addFields" class="add-transcription">
+      <img :src="AddRowIcon" alt="add row icon" />
+    </button>
   </div>
 </template>
