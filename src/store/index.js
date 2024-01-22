@@ -6,7 +6,8 @@ export default createStore({
   },
   mutations: {
     GET_DATA(state, payload) {
-      state.data = payload;
+      // state.data = payload;
+      state.data = [...payload, ...state.data];
     },
     ADD_TRANSCRIPTION(state) {
       state.data.push({
