@@ -55,10 +55,10 @@ header {
     <div class="header__content">
       <h1 class="header__title">{{ title }}</h1>
       <div class="header__actions">
-        <button @click="saveData">
+        <button @click="saveData" data-testid="save-data">
           <img :src="UploadIcon" alt="Save transcriptions" />
         </button>
-        <button @click="loadData">
+        <button @click="loadData" data-testid="load-data">
           <img :src="FetchDocIcon" alt="Load transcriptions" />
         </button>
       </div>

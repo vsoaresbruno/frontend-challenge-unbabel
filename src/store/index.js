@@ -3,18 +3,20 @@ const URL_API = "https://run.mocky.io/v3/4e50eddd-451b-46b6-9543-873b80188cf8";
 export default createStore({
   state: {
     data: [],
-    fieldPairs: [],
   },
   mutations: {
-    getData(state, payload) {
+    GET_DATA(state, payload) {
       state.data = payload;
     },
-    addFieldPair(state) {
+    ADD_TRANSCRIPTION(state) {
       state.data.push({
         id: String(Math.random()),
         voice: "Edit here",
         text: "Edit here",
       });
+    },
+    DELETE_TRANSCRIPTION(state, id) {
+      state.data = state.data.filter((item) => item.id !== id);
     },
   },
   actions: {
@@ -22,7 +24,7 @@ export default createStore({
       try {
         const response = await fetch(URL_API);
         const data = await response.json();
-        commit("getData", data);
+        commit("GET_DATA", data);
       } catch (err) {
         console.error(err);
         throw new Error();
@@ -54,7 +56,6 @@ export default createStore({
   },
   getters: {
     data: (state) => state.data,
-    fieldPairs: (state) => state.fieldPairs,
   },
   modules: {},
 });

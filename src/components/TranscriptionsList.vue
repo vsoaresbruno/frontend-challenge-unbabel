@@ -5,7 +5,7 @@ import TheCheckbox from "./TheCheckbox.vue";
 export default {
   props: {
     transcriptionsList: {
-      type: Object,
+      type: Array,
     },
   },
   components: {
@@ -17,7 +17,12 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["addFieldPair", "updateFieldPair"]),
+    ...mapMutations(["ADD_TRANSCRIPTION", "updateFieldPair"]),
+    ...mapMutations(["DELETE_TRANSCRIPTION"]),
+    deleteTranscription(id) {
+      this.DELETE_TRANSCRIPTION(id);
+    },
+
     editVoice(index) {
       this.editingIndex = index;
       this.isEditingVoice = true;
@@ -47,6 +52,7 @@ export default {
       isEditingVoice: false,
       isEditingText: false,
       FaceIcon: require("../assets/images/person.svg"),
+      DeleteIcon: require("../assets/images/delete.svg"),
     };
   },
 };
@@ -63,8 +69,8 @@ export default {
   padding: 24px;
 }
 .transcription__editable-area {
-  margin-left: 10px;
   width: 100%;
+  margin: 0 16px 0 10px;
 }
 .transcription__title {
   font-family: "Montserrat";
@@ -99,6 +105,17 @@ export default {
   border-radius: 3px;
   outline: 3px solid #fcfff4;
 }
+
+.transcription__delete-button {
+  cursor: pointer;
+  background: unset;
+  border: unset;
+  visibility: hidden;
+}
+
+.transcription__item:hover .transcription__delete-button {
+  visibility: visible;
+}
 </style>
 
 <template>
@@ -106,10 +123,11 @@ export default {
     <ul>
       <li
         class="transcription__item"
+        data-testid="transcription-item"
         v-for="(item, index) in transcriptionsList"
         :key="index"
       >
-        <TheCheckbox :index="item.id" />
+        <TheCheckbox :id="item.id" />
         <img :src="FaceIcon" alt="face icon" />
 
         <div class="transcription__editable-area">
@@ -124,9 +142,15 @@ export default {
             placeholder="Enter title"
             :ref="`voiceInput-${index}`"
             class="transcription__input--editing"
+            data-testid="transcription-voice-editing"
           />
 
-          <h3 class="transcription__title" v-else @click="editVoice(index)">
+          <h3
+            class="transcription__title"
+            data-testid="transcription-voice"
+            v-else
+            @click="editVoice(index)"
+          >
             {{ item.voice }}
           </h3>
 
@@ -140,11 +164,24 @@ export default {
             placeholder="Enter description"
             :ref="`textInput-${index}`"
             class="transcription__input--editing"
+            data-testid="transcription-text-editing"
           ></textarea>
-          <p class="transcription__content" v-else @click="editText(index)">
+          <p
+            class="transcription__content"
+            data-testid="transcription-text"
+            v-else
+            @click="editText(index)"
+          >
             {{ item.text }}
           </p>
         </div>
+        <button
+          data-testid="delete-transcription"
+          class="transcription__delete-button"
+          @click="deleteTranscription(item.id)"
+        >
+          <img :src="DeleteIcon" />
+        </button>
       </li>
     </ul>
   </div>

@@ -10,12 +10,12 @@ export default {
     TranscriptionsList,
   },
   computed: {
-    ...mapGetters(["data", "fieldPairs"]),
+    ...mapGetters(["data"]),
   },
   methods: {
-    ...mapMutations(["addFieldPair", "updateFieldPair"]),
+    ...mapMutations(["ADD_TRANSCRIPTION", "updateFieldPair"]),
     addFields() {
-      this.addFieldPair();
+      this.ADD_TRANSCRIPTION();
     },
   },
   data() {

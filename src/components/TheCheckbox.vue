@@ -1,7 +1,7 @@
 <script>
 export default {
   props: {
-    index: Number,
+    id: String,
   },
 };
 </script>
@@ -46,10 +46,10 @@ export default {
   <div class="transcriptions__checkbox-wrapper">
     <input
       type="checkbox"
-      :id="`transcriptions__item-${index}`"
+      :id="`transcriptions__item-${id}`"
       class="transcriptions__checkbox"
     /><label
-      :for="`transcriptions__item-${index}`"
+      :for="`transcriptions__item-${id}`"
       class="transcriptions__checkbox-label"
     ></label>
   </div>
