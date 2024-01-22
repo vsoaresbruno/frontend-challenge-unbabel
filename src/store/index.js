@@ -18,6 +18,14 @@ export default createStore({
     DELETE_TRANSCRIPTION(state, id) {
       state.data = state.data.filter((item) => item.id !== id);
     },
+
+    UPDATE_TRANSCRIPTION(state, { index, title, description }) {
+      const crrTranscriptions = state.data[index];
+      if (crrTranscriptions) {
+        crrTranscriptions.title = title;
+        crrTranscriptions.description = description;
+      }
+    },
   },
   actions: {
     async fetchData({ commit }) {
@@ -57,5 +65,4 @@ export default createStore({
   getters: {
     data: (state) => state.data,
   },
-  modules: {},
 });
