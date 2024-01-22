@@ -17,7 +17,7 @@ describe("TranscriptionContainer", () => {
     };
     mutations = {
       ADD_TRANSCRIPTION: jest.fn(),
-      updateFieldPair: jest.fn(),
+      updateTranscriptions: jest.fn(),
     };
     store = createStore({
       getters,

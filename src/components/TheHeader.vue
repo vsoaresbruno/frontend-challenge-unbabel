@@ -1,29 +1,54 @@
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
+
 export default {
-  computed: {
-    ...mapGetters(["data"]),
-  },
-  methods: {
-    ...mapActions(["fetchData", "postData"]),
-    loadData() {
-      this.fetchData();
-    },
-    saveData() {
-      this.postData();
-    },
-  },
+  name: "TheHeader",
   props: {
     title: String,
   },
-  data() {
+  setup() {
+    const store = useStore();
+
+    const data = computed(() => store.getters.data);
+
+    const loadData = () => {
+      store.dispatch("fetchData");
+    };
+
+    const saveData = () => {
+      store.dispatch("postData");
+    };
+
+    const UploadIcon = require("../assets/images/upload.svg");
+    const FetchDocIcon = require("../assets/images/fetch-document.svg");
+
     return {
-      UploadIcon: require("../assets/images/upload.svg"),
-      FetchDocIcon: require("../assets/images/fetch-document.svg"),
+      data,
+      loadData,
+      saveData,
+      UploadIcon,
+      FetchDocIcon,
     };
   },
 };
 </script>
+
+<template>
+  <header class="header">
+    <div class="header__content">
+      <h1 class="header__title">{{ title }}</h1>
+      <div class="header__actions">
+        <button @click="saveData" data-testid="save-data">
+          <img :src="UploadIcon" alt="Save transcriptions" />
+        </button>
+        <button @click="loadData" data-testid="load-data">
+          <img :src="FetchDocIcon" alt="Load transcriptions" />
+        </button>
+      </div>
+    </div>
+  </header>
+</template>
 
 <style scoped>
 header {
@@ -49,19 +74,3 @@ header {
   border: unset;
 }
 </style>
-
-<template>
-  <header class="header">
-    <div class="header__content">
-      <h1 class="header__title">{{ title }}</h1>
-      <div class="header__actions">
-        <button @click="saveData" data-testid="save-data">
-          <img :src="UploadIcon" alt="Save transcriptions" />
-        </button>
-        <button @click="loadData" data-testid="load-data">
-          <img :src="FetchDocIcon" alt="Load transcriptions" />
-        </button>
-      </div>
-    </div>
-  </header>
-</template>

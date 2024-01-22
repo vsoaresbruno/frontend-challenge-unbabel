@@ -1,10 +1,25 @@
 <script>
 export default {
+  name: "TheCheckbox",
   props: {
     id: String,
   },
 };
 </script>
+
+<template>
+  <div class="transcriptions__checkbox-wrapper">
+    <input
+      type="checkbox"
+      :id="`transcriptions__item-${id}`"
+      class="transcriptions__checkbox"
+    /><label
+      :for="`transcriptions__item-${id}`"
+      class="transcriptions__checkbox-label"
+    ></label>
+  </div>
+</template>
+
 <style scoped>
 .transcriptions__checkbox-wrapper,
 .transcriptions__face-icon-wrapper {
@@ -41,16 +56,3 @@ export default {
   left: 1px;
 }
 </style>
-
-<template>
-  <div class="transcriptions__checkbox-wrapper">
-    <input
-      type="checkbox"
-      :id="`transcriptions__item-${id}`"
-      class="transcriptions__checkbox"
-    /><label
-      :for="`transcriptions__item-${id}`"
-      class="transcriptions__checkbox-label"
-    ></label>
-  </div>
-</template>

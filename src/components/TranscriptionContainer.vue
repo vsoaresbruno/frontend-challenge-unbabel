@@ -1,5 +1,6 @@
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 import TranscriptionsList from "./TranscriptionsList.vue";
 import TheHeader from "./TheHeader.vue";
 
@@ -9,22 +10,37 @@ export default {
     TheHeader,
     TranscriptionsList,
   },
-  computed: {
-    ...mapGetters(["data"]),
-  },
-  methods: {
-    ...mapMutations(["ADD_TRANSCRIPTION", "updateFieldPair"]),
-    addFields() {
-      this.ADD_TRANSCRIPTION();
-    },
-  },
-  data() {
+  setup() {
+    const store = useStore();
+
+    const data = computed(() => store.getters.data);
+
+    const addField = () => {
+      store.commit("ADD_TRANSCRIPTION");
+    };
+
+    const AddRowIcon = require("../assets/images/add-row.svg");
+
     return {
-      AddRowIcon: require("../assets/images/add-row.svg"),
+      data,
+      addField,
+      AddRowIcon,
     };
   },
 };
 </script>
+
+<template>
+  <TheHeader title="Trascriptions" />
+  <main class="container">
+    <div class="content">
+      <TranscriptionsList :transcriptionsList="data" />
+    </div>
+    <button @click="addField" class="add-transcription">
+      <img :src="AddRowIcon" alt="add row icon" />
+    </button>
+  </main>
+</template>
 
 <style scoped>
 .container {
@@ -46,15 +62,3 @@ export default {
   cursor: pointer;
 }
 </style>
-
-<template>
-  <TheHeader title="Trascriptions" />
-  <div class="container">
-    <div class="content">
-      <TranscriptionsList :transcriptionsList="data" />
-    </div>
-    <button @click="addFields" class="add-transcription">
-      <img :src="AddRowIcon" alt="add row icon" />
-    </button>
-  </div>
-</template>

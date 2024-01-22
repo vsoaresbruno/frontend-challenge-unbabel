@@ -4,6 +4,11 @@ import { createStore } from "vuex";
 
 let store;
 let state;
+const mutations = {
+  ADD_TRANSCRIPTION: jest.fn(),
+  DELETE_TRANSCRIPTION: jest.fn(),
+  UPDATE_TRANSCRIPTION: jest.fn(),
+};
 
 describe("TranscriptionsList", () => {
   beforeEach(() => {
@@ -13,6 +18,7 @@ describe("TranscriptionsList", () => {
 
     store = createStore({
       state,
+      mutations,
     });
   });
 
@@ -27,20 +33,20 @@ describe("TranscriptionsList", () => {
 
   it("renders transcription list from props", () => {
     const transcriptionsList = [{ voice: "Voice 1", text: "Text 1" }];
+
     const wrapper = shallowMount(TranscriptionsList, {
       props: { transcriptionsList },
+      global: {
+        plugins: [store],
+      },
     });
+
     expect(wrapper.findAll(".transcription__item").length).toBe(
       transcriptionsList.length
     );
   });
 
   it("calls Vuex mutations on user input voice value", async () => {
-    const mutations = {
-      ADD_TRANSCRIPTION: jest.fn(),
-      updateFieldPair: jest.fn(),
-    };
-
     store = createStore({
       state,
       mutations,
@@ -59,15 +65,10 @@ describe("TranscriptionsList", () => {
     );
     await inputElement.setValue("New Voice");
     await inputElement.trigger("input");
-    expect(mutations.updateFieldPair).toHaveBeenCalled();
+    expect(mutations.UPDATE_TRANSCRIPTION).toHaveBeenCalled();
   });
 
   it("calls Vuex mutations on user input text value", async () => {
-    const mutations = {
-      ADD_TRANSCRIPTION: jest.fn(),
-      updateFieldPair: jest.fn(),
-    };
-
     store = createStore({
       state,
       mutations,
@@ -87,16 +88,10 @@ describe("TranscriptionsList", () => {
     );
     await textareaElement.setValue("New Text for the text area");
     await textareaElement.trigger("input");
-    expect(mutations.updateFieldPair).toHaveBeenCalled();
+    expect(mutations.UPDATE_TRANSCRIPTION).toHaveBeenCalled();
   });
 
   it("calls DELETE_TRANSCRIPTION mutations on user cliks", async () => {
-    const mutations = {
-      ADD_TRANSCRIPTION: jest.fn(),
-      DELETE_TRANSCRIPTION: jest.fn(),
-      updateFieldPair: jest.fn(),
-    };
-
     state = {
       data: [
         { voice: "Voice 1", text: "Text 1" },

@@ -1,62 +1,164 @@
 <script>
-import { mapMutations } from "vuex";
+import { ref, computed, nextTick } from "vue";
+import { useStore } from "vuex";
 import TheCheckbox from "./TheCheckbox.vue";
 
 export default {
+  name: "TranscriptionsList",
+  components: {
+    TheCheckbox,
+  },
   props: {
     transcriptionsList: {
       type: Array,
     },
   },
-  components: {
-    TheCheckbox,
-  },
-  computed: {
-    transcriptionFromStore() {
-      return this.$store.state.data;
-    },
-  },
-  methods: {
-    ...mapMutations(["ADD_TRANSCRIPTION", "updateFieldPair"]),
-    ...mapMutations(["DELETE_TRANSCRIPTION"]),
-    deleteTranscription(id) {
-      this.DELETE_TRANSCRIPTION(id);
-    },
+  setup() {
+    const store = useStore();
+    const transcriptionFromStore = computed(() => store.state.data);
 
-    editVoice(index) {
-      this.editingIndex = index;
-      this.isEditingVoice = true;
-      this.isEditingText = false;
-      this.$nextTick(() => {
-        this.$refs[`voiceInput-${index}`][0].focus();
-      });
-    },
-    editText(index) {
-      this.editingIndex = index;
-      this.isEditingVoice = false;
-      this.isEditingText = true;
-      this.$nextTick(() => {
-        this.$refs[`textInput-${index}`][0].focus();
-      });
-    },
-    resetEditing() {
-      this.editingIndex = null;
-      this.isEditingVoice = false;
-      this.isEditingText = false;
-    },
-  },
+    const editingIndex = ref(null);
+    const isEditingVoice = ref(false);
+    const isEditingText = ref(false);
+    const voiceInputRefs = ref({});
+    const textInputRefs = ref({});
 
-  data() {
+    const FaceIcon = require("../assets/images/person.svg");
+    const DeleteIcon = require("../assets/images/delete.svg");
+
+    const deleteTranscription = (id) => {
+      store.commit("DELETE_TRANSCRIPTION", id);
+    };
+
+    const editVoice = (index) => {
+      editingIndex.value = index;
+      isEditingVoice.value = true;
+      isEditingText.value = false;
+      nextTick(() => {
+        voiceInputRefs.value[`voiceInput-${index}`]?.focus();
+      });
+    };
+
+    const editText = (index) => {
+      editingIndex.value = index;
+      isEditingVoice.value = false;
+      isEditingText.value = true;
+      nextTick(() => {
+        textInputRefs.value[`textInput-${index}`]?.focus();
+      });
+    };
+
+    const resetEditing = () => {
+      editingIndex.value = null;
+      isEditingVoice.value = false;
+      isEditingText.value = false;
+    };
+
+    const updateTranscriptions = (index, payload) => {
+      store.commit("UPDATE_TRANSCRIPTION", { index, payload });
+    };
+
     return {
-      editingIndex: null,
-      isEditingVoice: false,
-      isEditingText: false,
-      FaceIcon: require("../assets/images/person.svg"),
-      DeleteIcon: require("../assets/images/delete.svg"),
+      transcriptionFromStore,
+      editingIndex,
+      isEditingVoice,
+      isEditingText,
+      deleteTranscription,
+      editVoice,
+      editText,
+      resetEditing,
+      updateTranscriptions,
+      FaceIcon,
+      DeleteIcon,
+      voiceInputRefs,
+      textInputRefs,
     };
   },
 };
 </script>
+
+<template>
+  <div>
+    <ul>
+      <li
+        class="transcription__item"
+        data-testid="transcription-item"
+        v-for="(item, index) in transcriptionsList"
+        :key="index"
+      >
+        <TheCheckbox :id="item.id" />
+        <img :src="FaceIcon" alt="face icon" />
+
+        <div class="transcription__editable-area">
+          <input
+            v-if="editingIndex === index && isEditingVoice"
+            type="text"
+            v-model="item.voice"
+            @blur="resetEditing"
+            @input="
+              updateTranscriptions(index, {
+                voice: item.voice,
+                text: item.text,
+              })
+            "
+            placeholder="Enter title"
+            :ref="
+              (voice) => {
+                voiceInputRefs[`voiceInput-${index}`] = voice;
+              }
+            "
+            class="transcription__input--editing"
+            data-testid="transcription-voice-editing"
+          />
+
+          <h3
+            class="transcription__title"
+            data-testid="transcription-voice"
+            v-else
+            @click="editVoice(index)"
+          >
+            {{ item.voice }}
+          </h3>
+
+          <textarea
+            v-if="(editingIndex === index && isEditingText) || !item.text"
+            v-model="item.text"
+            @blur="resetEditing"
+            @input="
+              updateTranscriptions(index, {
+                voice: item.voice,
+                text: item.text,
+              })
+            "
+            placeholder="Enter description"
+            :ref="
+              (text) => {
+                textInputRefs[`textInput-${index}`] = text;
+              }
+            "
+            class="transcription__input--editing"
+            data-testid="transcription-text-editing"
+          ></textarea>
+          <p
+            class="transcription__content"
+            data-testid="transcription-text"
+            v-else
+            @click="editText(index)"
+          >
+            {{ item.text }}
+          </p>
+        </div>
+        <button
+          data-testid="delete-transcription"
+          class="transcription__delete-button"
+          @click="deleteTranscription(item.id)"
+        >
+          <img :src="DeleteIcon" />
+        </button>
+      </li>
+    </ul>
+  </div>
+</template>
 
 <style scoped>
 .trasncription__list {
@@ -117,72 +219,3 @@ export default {
   visibility: visible;
 }
 </style>
-
-<template>
-  <div>
-    <ul>
-      <li
-        class="transcription__item"
-        data-testid="transcription-item"
-        v-for="(item, index) in transcriptionsList"
-        :key="index"
-      >
-        <TheCheckbox :id="item.id" />
-        <img :src="FaceIcon" alt="face icon" />
-
-        <div class="transcription__editable-area">
-          <input
-            v-if="editingIndex === index && isEditingVoice"
-            type="text"
-            v-model="item.voice"
-            @blur="resetEditing"
-            @input="
-              updateFieldPair(index, { voice: item.voice, text: item.text })
-            "
-            placeholder="Enter title"
-            :ref="`voiceInput-${index}`"
-            class="transcription__input--editing"
-            data-testid="transcription-voice-editing"
-          />
-
-          <h3
-            class="transcription__title"
-            data-testid="transcription-voice"
-            v-else
-            @click="editVoice(index)"
-          >
-            {{ item.voice }}
-          </h3>
-
-          <textarea
-            v-if="(editingIndex === index && isEditingText) || !item.text"
-            v-model="item.text"
-            @blur="resetEditing"
-            @input="
-              updateFieldPair(index, { voice: item.voice, text: item.text })
-            "
-            placeholder="Enter description"
-            :ref="`textInput-${index}`"
-            class="transcription__input--editing"
-            data-testid="transcription-text-editing"
-          ></textarea>
-          <p
-            class="transcription__content"
-            data-testid="transcription-text"
-            v-else
-            @click="editText(index)"
-          >
-            {{ item.text }}
-          </p>
-        </div>
-        <button
-          data-testid="delete-transcription"
-          class="transcription__delete-button"
-          @click="deleteTranscription(item.id)"
-        >
-          <img :src="DeleteIcon" />
-        </button>
-      </li>
-    </ul>
-  </div>
-</template>
