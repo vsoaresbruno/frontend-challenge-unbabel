@@ -5,7 +5,6 @@ const apiService = {
       const data = await response.json();
       return data;
     } catch (err) {
-      console.error(err);
       throw new Error("Fetch failed");
     }
   },
@@ -29,8 +28,7 @@ const apiService = {
       console.log("Data posted successfully:", responseData);
       return responseData;
     } catch (err) {
-      console.error("Error posting data:", err);
-      throw err;
+      throw new Error(err);
     }
   },
 };
