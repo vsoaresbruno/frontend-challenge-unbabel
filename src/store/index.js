@@ -15,7 +15,6 @@ export const mutations = {
   },
 
   ADD_TRANSCRIPTION: (state) => {
-    console.log("state", state);
     state.data.push({
       id: getRandomID(),
       voice: "Edit here",

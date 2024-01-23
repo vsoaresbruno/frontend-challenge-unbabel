@@ -3,6 +3,5 @@ module.exports = {
   moduleNameMapper: {
     "^@helpers/(.*)$": "<rootDir>/src/helpers/$1",
     "^@services/(.*)$": "<rootDir>/src/services/$1",
-    // ... other mappings ...
   },
 };
