@@ -43,7 +43,7 @@ export default {
 <style scoped>
 .container {
   margin: 0 auto;
-  width: 740px;
+  max-width: 740px;
 }
 .content {
   border: 1px solid var(--border-color);
