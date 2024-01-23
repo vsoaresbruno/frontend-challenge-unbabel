@@ -6,7 +6,7 @@ const apiService = {
       return data;
     } catch (err) {
       console.error(err);
-      throw new Error();
+      throw new Error("Fetch failed");
     }
   },
 
