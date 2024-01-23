@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "TheCheckbox",
+  name: "BaseCheckbox",
   props: {
     id: String,
   },

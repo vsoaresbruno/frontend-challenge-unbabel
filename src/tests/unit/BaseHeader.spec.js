@@ -1,4 +1,4 @@
-import TheHeader from "@/components/TheHeader.vue";
+import BaseHeader from "@/components/BaseHeader.vue";
 import { shallowMount } from "@vue/test-utils";
 import { createStore } from "vuex";
 
@@ -16,7 +16,7 @@ describe("YourComponent", () => {
   });
 
   it("renders correctly", () => {
-    const wrapper = shallowMount(TheHeader, {
+    const wrapper = shallowMount(BaseHeader, {
       global: {
         plugins: [store],
       },
@@ -28,10 +28,10 @@ describe("YourComponent", () => {
     // Add more assertions as needed
   });
 
-  it('dispatches "fetchData" when LOAD button is clicked', async () => {
+  it('dispatches "getTranscriptions" when LOAD button is clicked', async () => {
     const actions = {
-      fetchData: jest.fn(),
-      postData: jest.fn(),
+      getTranscriptions: jest.fn(),
+      postTranscriptions: jest.fn(),
     };
 
     store = createStore({
@@ -39,7 +39,7 @@ describe("YourComponent", () => {
       getters,
     });
 
-    const wrapper = shallowMount(TheHeader, {
+    const wrapper = shallowMount(BaseHeader, {
       global: {
         plugins: [store],
       },
@@ -49,14 +49,14 @@ describe("YourComponent", () => {
     });
 
     await wrapper.find('[data-testid="load-data"]').trigger("click");
-    expect(actions.fetchData).toHaveBeenCalled();
-    // Similar test for postData
+    expect(actions.getTranscriptions).toHaveBeenCalled();
+    // Similar test for postTranscriptions
   });
 
   it('dispatches "saveData" when SAVE button is clicked', async () => {
     const actions = {
-      fetchData: jest.fn(),
-      postData: jest.fn(),
+      getTranscriptions: jest.fn(),
+      postTranscriptions: jest.fn(),
     };
 
     store = createStore({
@@ -64,7 +64,7 @@ describe("YourComponent", () => {
       getters,
     });
 
-    const wrapper = shallowMount(TheHeader, {
+    const wrapper = shallowMount(BaseHeader, {
       global: {
         plugins: [store],
       },
@@ -74,7 +74,6 @@ describe("YourComponent", () => {
     });
 
     await wrapper.find('[data-testid="save-data"]').trigger("click");
-    expect(actions.postData).toHaveBeenCalled();
-    // Similar test for postData
+    expect(actions.postTranscriptions).toHaveBeenCalled();
   });
 });

@@ -1,10 +1,10 @@
 import { shallowMount } from "@vue/test-utils";
-import TheCheckbox from "@/components/TheCheckbox.vue";
+import BaseCheckbox from "@/components/BaseCheckbox.vue";
 
-describe("TheCheckbox.vue", () => {
+describe("BaseCheckbox.vue", () => {
   it("renders props.id ", () => {
     const id = "76898";
-    const wrapper = shallowMount(TheCheckbox, {
+    const wrapper = shallowMount(BaseCheckbox, {
       props: { id },
     });
 

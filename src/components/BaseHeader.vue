@@ -1,11 +1,17 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import IconUpload from "./IconUpload.vue";
+import IconFetchDocument from "./IconFetchDocument.vue";
 
 export default {
-  name: "TheHeader",
+  name: "BaseHeader",
   props: {
     title: String,
+  },
+  components: {
+    IconUpload,
+    IconFetchDocument,
   },
   setup() {
     const store = useStore();
@@ -13,22 +19,17 @@ export default {
     const data = computed(() => store.getters.data);
 
     const loadData = () => {
-      store.dispatch("fetchData");
+      store.dispatch("getTranscriptions");
     };
 
     const saveData = () => {
-      store.dispatch("postData");
+      store.dispatch("postTranscriptions");
     };
-
-    const UploadIcon = require("../assets/images/upload.svg");
-    const FetchDocIcon = require("../assets/images/fetch-document.svg");
 
     return {
       data,
       loadData,
       saveData,
-      UploadIcon,
-      FetchDocIcon,
     };
   },
 };
@@ -40,10 +41,10 @@ export default {
       <h1 class="header__title">{{ title }}</h1>
       <div class="header__actions">
         <button @click="saveData" data-testid="save-data">
-          <img :src="UploadIcon" alt="Save transcriptions" />
+          <icon-upload />
         </button>
         <button @click="loadData" data-testid="load-data">
-          <img :src="FetchDocIcon" alt="Load transcriptions" />
+          <icon-fetch-document />
         </button>
       </div>
     </div>

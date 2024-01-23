@@ -2,13 +2,15 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import TranscriptionsList from "./TranscriptionsList.vue";
-import TheHeader from "./TheHeader.vue";
+import BaseHeader from "./BaseHeader.vue";
+import IconAdd from "./IconAdd.vue";
 
 export default {
   name: "TranscriptionContainer",
   components: {
-    TheHeader,
+    BaseHeader,
     TranscriptionsList,
+    IconAdd,
   },
   setup() {
     const store = useStore();
@@ -18,26 +20,22 @@ export default {
     const addField = () => {
       store.commit("ADD_TRANSCRIPTION");
     };
-
-    const AddRowIcon = require("../assets/images/add-row.svg");
-
     return {
       data,
       addField,
-      AddRowIcon,
     };
   },
 };
 </script>
 
 <template>
-  <TheHeader title="Trascriptions" />
+  <BaseHeader title="Trascriptions" />
   <main class="container">
     <div class="content">
       <TranscriptionsList :transcriptionsList="data" />
     </div>
     <button @click="addField" class="add-transcription">
-      <img :src="AddRowIcon" alt="add row icon" />
+      <icon-add />
     </button>
   </main>
 </template>

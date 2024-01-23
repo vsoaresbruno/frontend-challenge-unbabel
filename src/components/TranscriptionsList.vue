@@ -1,16 +1,21 @@
 <script>
 import { ref, computed, nextTick } from "vue";
 import { useStore } from "vuex";
-import TheCheckbox from "./TheCheckbox.vue";
+import BaseCheckbox from "./BaseCheckbox.vue";
+import IconPerson from "./IconPerson.vue";
+import IconDelete from "./IconDelete.vue";
 
 export default {
   name: "TranscriptionsList",
   components: {
-    TheCheckbox,
+    BaseCheckbox,
+    IconPerson,
+    IconDelete,
   },
   props: {
     transcriptionsList: {
       type: Array,
+      require: true,
     },
   },
   setup() {
@@ -22,9 +27,6 @@ export default {
     const isEditingText = ref(false);
     const voiceInputRefs = ref({});
     const textInputRefs = ref({});
-
-    const FaceIcon = require("../assets/images/person.svg");
-    const DeleteIcon = require("../assets/images/delete.svg");
 
     const deleteTranscription = (id) => {
       store.commit("DELETE_TRANSCRIPTION", id);
@@ -68,8 +70,6 @@ export default {
       editText,
       resetEditing,
       updateTranscriptions,
-      FaceIcon,
-      DeleteIcon,
       voiceInputRefs,
       textInputRefs,
     };
@@ -86,9 +86,10 @@ export default {
         v-for="(item, index) in transcriptionsList"
         :key="index"
       >
-        <TheCheckbox :id="item.id" />
-        <img :src="FaceIcon" alt="face icon" />
-
+        <BaseCheckbox :id="item.id" />
+        <div class="transcriptions__face-icon-wrapper">
+          <icon-person />
+        </div>
         <div class="transcription__editable-area">
           <input
             v-if="editingIndex === index && isEditingVoice"
@@ -153,7 +154,7 @@ export default {
           class="transcription__delete-button"
           @click="deleteTranscription(item.id)"
         >
-          <img :src="DeleteIcon" />
+          <icon-delete />
         </button>
       </li>
     </ul>
@@ -217,5 +218,8 @@ export default {
 
 .transcription__item:hover .transcription__delete-button {
   visibility: visible;
+}
+.transcription__item:hover .transcriptions__face-icon-wrapper {
+  color: purple;
 }
 </style>

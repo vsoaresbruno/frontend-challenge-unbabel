@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils";
 import TranscriptionContainer from "@/components/TranscriptionContainer.vue";
 import TranscriptionsList from "@/components/TranscriptionsList.vue";
-import TheHeader from "@/components/TheHeader.vue";
+import BaseHeader from "@/components/BaseHeader.vue";
 import { createStore } from "vuex";
 
 describe("TranscriptionContainer", () => {
@@ -31,7 +31,7 @@ describe("TranscriptionContainer", () => {
         plugins: [store],
       },
     });
-    expect(wrapper.findComponent(TheHeader).exists()).toBe(true);
+    expect(wrapper.findComponent(BaseHeader).exists()).toBe(true);
     expect(wrapper.findComponent(TranscriptionsList).exists()).toBe(true);
   });
 
