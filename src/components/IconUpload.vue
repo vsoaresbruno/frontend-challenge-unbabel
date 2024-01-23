@@ -1,5 +1,7 @@
 <template>
   <svg
+    role="img"
+    aria-label="upload"
     width="24px"
     height="24px"
     viewBox="0 0 24 24"

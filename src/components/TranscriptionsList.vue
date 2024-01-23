@@ -79,12 +79,13 @@ export default {
 
 <template>
   <div>
-    <ul>
+    <ul role="list">
       <li
         class="transcription__item"
         data-testid="transcription-item"
         v-for="(item, index) in transcriptionsList"
         :key="index"
+        role="listitem"
       >
         <BaseCheckbox :id="item.id" />
         <div class="transcriptions__face-icon-wrapper">
@@ -108,6 +109,7 @@ export default {
                 voiceInputRefs[`voiceInput-${index}`] = voice;
               }
             "
+            aria-label="voiceLabel"
             class="transcription__input--editing"
             data-testid="transcription-voice-editing"
           />
@@ -137,6 +139,7 @@ export default {
                 textInputRefs[`textInput-${index}`] = text;
               }
             "
+            aria-label="textLabel"
             class="transcription__input--editing"
             data-testid="transcription-text-editing"
           ></textarea>
@@ -150,6 +153,8 @@ export default {
           </p>
         </div>
         <button
+          role="button"
+          aria-label="AddRow"
           data-testid="delete-transcription"
           class="transcription__delete-button"
           @click="deleteTranscription(item.id)"

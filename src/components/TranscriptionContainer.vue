@@ -30,7 +30,7 @@ export default {
 
 <template>
   <BaseHeader title="Trascriptions" />
-  <main class="container">
+  <main role="main" aria-labelledby="main-list" class="container">
     <div class="content">
       <TranscriptionsList :transcriptionsList="data" />
     </div>

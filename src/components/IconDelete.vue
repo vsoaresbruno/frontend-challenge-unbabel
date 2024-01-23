@@ -1,5 +1,7 @@
 <template>
   <svg
+    role="img"
+    aria-labelledby="delete"
     width="16px"
     height="20px"
     viewBox="0 0 16 20"

@@ -10,10 +10,13 @@ export default {
 <template>
   <div class="transcriptions__checkbox-wrapper">
     <input
+      role="checkbox"
+      :aria-label="`transcriptions__item-${id}`"
       type="checkbox"
       :id="`transcriptions__item-${id}`"
       class="transcriptions__checkbox"
     /><label
+      :aria-label="`transcriptions__item-${id}`"
       :for="`transcriptions__item-${id}`"
       class="transcriptions__checkbox-label"
     ></label>
