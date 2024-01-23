@@ -7,7 +7,7 @@ module.exports = defineConfig({
     resolve: {
       alias: {
         "@helpers": path.resolve(__dirname, "src/helpers"),
-        "@stores": path.resolve(__dirname, "src/store"),
+        "@services": path.resolve(__dirname, "src/services"),
       },
     },
   },

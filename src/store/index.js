@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
-import { getRandomID } from "../helpers/randomGenerateID";
+import { getRandomID } from "@helpers/randomGenerateID";
+import apiService from "@services/apiService";
+
 const state = {
   data: [],
 };
@@ -36,9 +38,8 @@ export const mutations = {
 export const actions = {
   async getTranscriptions({ commit }) {
     try {
-      const response = await fetch(process.env.VUE_APP_API_URL);
-      const data = await response.json();
-      commit("GET_DATA", data);
+      const response = await apiService.getData();
+      commit("GET_DATA", response);
     } catch (err) {
       console.error(err);
       throw new Error();
@@ -47,21 +48,12 @@ export const actions = {
 
   async postTranscriptions({ state }) {
     try {
-      const response = await fetch(process.env.VUE_APP_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(state.data),
-      });
+      const response = await apiService.postData(state.data);
 
-      if (!response.ok) {
+      if (!response) {
         throw new Error("Error posting data");
       }
-
-      // Handle the response as needed
-      const responseData = await response.json();
-      console.log("Data posted successfully:", responseData);
+      console.log("Data posted successfully:", response);
     } catch (err) {
       console.error("Error posting data:", err);
       throw err;
