@@ -3,26 +3,22 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import TranscriptionsList from "./TranscriptionsList.vue";
 import BaseHeader from "./BaseHeader.vue";
-import IconAdd from "./IconAdd.vue";
+import AddRow from "./AddRow.vue";
 
 export default {
   name: "TranscriptionContainer",
   components: {
     BaseHeader,
     TranscriptionsList,
-    IconAdd,
+    AddRow,
   },
   setup() {
     const store = useStore();
 
     const data = computed(() => store.getters.data);
 
-    const addField = () => {
-      store.commit("ADD_TRANSCRIPTION");
-    };
     return {
       data,
-      addField,
     };
   },
 };
@@ -34,10 +30,8 @@ export default {
     <div class="content">
       <TranscriptionsList :transcriptionsList="data" />
     </div>
-    <button @click="addField" class="add-transcription">
-      <icon-add />
-    </button>
   </main>
+  <AddRow />
 </template>
 
 <style scoped>
@@ -48,15 +42,5 @@ export default {
 .content {
   border: 1px solid var(--border-color);
   background-color: #ffffff;
-}
-.field-pair {
-  margin-top: 12px;
-}
-.add-transcription {
-  margin: 12px auto;
-  display: block;
-  border: unset;
-  background-color: unset;
-  cursor: pointer;
 }
 </style>

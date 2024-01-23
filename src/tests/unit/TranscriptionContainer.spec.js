@@ -35,16 +35,6 @@ describe("TranscriptionContainer", () => {
     expect(wrapper.findComponent(TranscriptionsList).exists()).toBe(true);
   });
 
-  it("calls ADD_TRANSCRIPTION mutation when add button is clicked", async () => {
-    const wrapper = shallowMount(TranscriptionContainer, {
-      global: {
-        plugins: [store],
-      },
-    });
-    await wrapper.find(".add-transcription").trigger("click");
-    expect(mutations.ADD_TRANSCRIPTION).toHaveBeenCalled();
-  });
-
   it("passes the correct props to child components", () => {
     const mockData = [{ id: 1, voice: "voice", text: "Sample" }];
     getters = { data: () => mockData };
