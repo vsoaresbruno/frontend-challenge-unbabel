@@ -28,7 +28,8 @@ const apiService = {
       console.log("Data posted successfully:", responseData);
       return responseData;
     } catch (err) {
-      throw new Error(err);
+      console.error("Error in postData:", err);
+      throw err;
     }
   },
 };
